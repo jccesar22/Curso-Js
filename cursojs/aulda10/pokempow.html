@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo - Jo Ken Pô</title>
+    <style>
+        h1 {
+            font-size: 72px;
+            color: gold;
+            text-shadow: 5px 5px 5px black;
+            padding-bottom: 10px;
+            
+        }
+        body {
+            background: steelblue;
+            text-align: center;
+        }
+        section {
+            background: gold;
+            border-radius: 15px 15px 15px;
+            padding: 5px;
+            font-size: 28px;
+            text-align: center;
+            box-sizing: 800px;
+            box-shadow: 10px 10px 5px black;
+        }
+        div {
+            font-size: 36px;
+        }
+        p {
+            font-size: 48px;
+            font-style: italic;
+        }
+        input#btn {
+            font-size: 24px;
+            border-radius: 5px 5px 5px;
+        }
+        input#btnzerar {
+            font-size: 24px;
+            border-radius: 3px 3px 3px;
+        }
+        img#img {
+            margin: 30px;
+        }
+        section#sec2 {
+            margin-top: 15px;
+            background: rgb(236, 235, 131);
+        }
+        h2 {
+            margin-top: 10px;
+            background: white;
+            font-size: 38px;
+            color: black;
+            font-style: italic;
+            border-radius: 5px 5px 5px;
+            padding-top: 5px;
+        }
+        footer {
+            padding-top: 15px;
+            font-size: larger;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Jogo - Jo Ken Po</h1>
+    <section>
+        Pedra<input type="radio" name="jogada" value="Pedra">
+        Papel <input type="radio" name="jogada" value="Papel">
+        Tesoura <input type="radio" name="jogada" value="Tesoura">
+        
+        <input id="btn" type="button" value="Jogar" onclick="jogada()">
+        <input id="btnzerar" type="button" name="" value="Zerar Placar" onclick="zerar()">
+        <br>
+        <!--<img id="img" src="jogo.png" width=400>-->
+
+        <div id="txtJOG"></div>
+        <div id="txtCPU"></div>
+        
+        <img id="imgJOG" width=300>
+        <img id="imgCPU" width=300>
+        
+
+        <div id="txtRES"></div>
+    </section>
+    <section id="sec2">
+        <img id="imgwinlose" width=450>
+
+        <div>
+                Jogador <h2 id="placarJOG"></h2>
+                CPU <h2 id="placarCPU"></h2>
+        </div>
+  
+    </section>
+    <footer>Maycon R. Campos - Estudos de JavaScript</footer>
+
+        <script>
+            var nome = prompt("Qual e seu nome ?")
+            var placarCPU = document.getElementById("placarCPU")
+            var placarJOG = document.getElementById("placarJOG")
+            var imgwinlose = document.getElementById("imgwinlose")
+
+            var txtCPU = document.getElementById("txtCPU")
+            var txtJOG = document.getElementById("txtJOG")
+            var txtRES = document.getElementById("txtRES")
+            var imgCPU = document.getElementById("imgCPU")
+            var imgJOG = document.getElementById("imgJOG")
+            var vitoriaJOG = 0
+            var vitoriaCPU = 0
+
+            function vitoriadoCPU(){
+                vitoriaCPU++
+                if(vitoriaCPU < 10){
+                    placarCPU.innerHTML = `${vitoriaCPU}`
+                    return vitoriaCPU
+                }else{
+                    alert("Você Perdeu!! Tente Novamente!!")
+                    imgwinlose.src = "lose.png"
+                    vitoriaCPU = 0
+                    vitoriaJOG = 0
+                    placarCPU.innerHTML = ""
+                    placarJOG.innerHTML = ""
+                }
+                
+                
+            }
+            function vitoriadoJOG(){
+                vitoriaJOG++
+                if(vitoriaJOG < 10){
+                    placarJOG.innerHTML = `${vitoriaJOG}`
+                    return vitoriaJOG
+                }else{
+                    alert("Você Venceu!! Parabéns!!")
+                    imgwinlose.src = "win.png"
+                    vitoriaJOG = 0
+                    vitoriaCPU = 0
+                    placarJOG.innerHTML = ""
+                    placarCPU.innerHTML = ""
+                }
+                
+            }
+
+            function zerar(){
+                imgwinlose.src = ""
+                imgCPU.src = ""
+                imgJOG.src = ""
+                txtJOG.innerHTML = ""
+                txtCPU.innerHTML = ""
+                txtRES.innerHTML = ""
+                placarCPU.innerHTML = ""
+                placarJOG.innerHTML = ""
+                vitoriaJOG = 0
+                vitoriaCPU = 0
+            }
+
+            function jogada_CPU(){
+                var jogada_do_CPU = Math.floor(Math.random() * 3)
+
+                if(jogada_do_CPU == 0){
+                    jogada_do_CPU = "Pedra"
+                    return jogada_do_CPU
+                }else if(jogada_do_CPU == 1){
+                    jogada_do_CPU = "Papel"
+                    return jogada_do_CPU
+                }else{
+                    jogada_do_CPU = "Tesoura"
+                    return jogada_do_CPU
+                }
+
+            }
+
+            function jogada(){
+                var jogada = document.getElementsByName("jogada")
+
+                for(i = 0; i < jogada.length; i++){
+                    if(jogada[i].checked == true){
+
+                        var escolha_jogador = jogada[i].value
+               
+                        txtJOG.innerHTML = `Você jogou ${jogada[i].value}!!` 
+                    }          
+
+                }
+                
+                var escolha_CPU = jogada_CPU()
+                txtCPU.innerHTML = `CPU Jogou ${escolha_CPU}!!`
+
+
+                if(escolha_jogador == "Pedra" && escolha_CPU == "Pedra"){
+                    imgJOG.src = "pedra.png"
+                    imgCPU.src = "pedra.png"
+                    txtRES.innerHTML = "Empate!! Jogue Novamente!"
+                }else if(escolha_jogador == "Pedra" && escolha_CPU == "Papel"){
+                    imgJOG.src = "pedra.png"
+                    imgCPU.src = "papel.png"
+                    txtRES.innerHTML = "DERROTA! Você Perdeu!"
+                    vitoriadoCPU()
+                }else if(escolha_jogador == "Pedra" && escolha_CPU == "Tesoura"){
+                    imgJOG.src = "pedra.png"
+                    imgCPU.src = "tesoura.png"
+                    txtRES.innerHTML = "VITÓRIA! Você Venceu!"
+                    vitoriadoJOG()
+                }else if(escolha_jogador == "Papel" && escolha_CPU == "Papel"){
+                    imgJOG.src = "papel.png"
+                    imgCPU.src = "papel.png"
+                    txtRES.innerHTML = "Empate!! Jogue Novamente!"
+                }else if(escolha_jogador == "Papel" && escolha_CPU == "Pedra"){
+                    imgJOG.src = "papel.png"
+                    imgCPU.src = "pedra.png"
+                    txtRES.innerHTML = "VITÓRIA! Você Venceu!"
+                    vitoriadoJOG()
+                }else if(escolha_jogador == "Papel" && escolha_CPU == "Tesoura"){
+                    imgJOG.src = "papel.png"
+                    imgCPU.src = "tesoura.png"
+                    txtRES.innerHTML = "DERROTA! Você Perdeu!"
+                    vitoriadoCPU()
+                }else if(escolha_jogador == "Tesoura" && escolha_CPU == "Tesoura"){
+                    imgJOG.src = "tesoura.png"
+                    imgCPU.src = "tesoura.png"
+                    txtRES.innerHTML = "Empate!! Jogue Novamente!"
+                }else if(escolha_jogador == "Tesoura" && escolha_CPU == "Pedra"){
+                    imgJOG.src = "tesoura.png"
+                    imgCPU.src = "pedra.png"
+                    txtRES.innerHTML = "DERROTA! Você Perdeu!"
+                    vitoriadoCPU()
+                }else if(escolha_jogador == "Tesoura" && escolha_CPU == "Papel"){
+                    imgJOG.src = "tesoura.png"
+                    imgCPU.src = "papel.png"
+                    txtRES.innerHTML = "VITÓRIA! Você Venceu!"
+                    vitoriadoJOG()
+                }
+
+            }
+           
+        </script>
+    
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinhe o Número</title>
+    <style>
+        body {
+            background: steelblue;
+            color: white;
+            text-align: center;
+    
+        }
+        section#sec1 {
+            text-align: left;
+            color: black;
+            background:white;
+        }
+        section {
+            background: white;
+            color: steelblue;
+            border-radius: 5px 5px 5px ;
+            padding: 10px;
+            width: auto;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            box-shadow: 5px 5px 5px black;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Jogo - Adivinhe o Número</h1>
+    <p>Neste jogo o computador irá gerar um número aleatório de 0 a 100, então você deverá adivinhar no menor número possível de vezes.</p>
+
+    <section>
+        Clique para gerar um novo número Aleatório: <input type="button" value="Gerar Novo Número Aleatório" onclick="gerar()">
+        <br><br>
+        Insira um número: <input type="number" name="numero" id="numero">
+        <input type="button" value="Jogar" onclick="jogar()">
+    </section>
+    <section>
+        <div id="tentativas"></div>
+        <div id="frase"></div>
+    </section>
+    <footer>Maycon Robson Campos - Estudos de JavaScript</footer>
+
+    <script>
+        var aleatorio = gerar()
+        var tentativas = 1   
+            
+
+        function jogar(){
+            var mostrar_tentativas = document.getElementById("tentativas")
+            var frase = document.getElementById("frase")
+            var numero = document.getElementById("numero").value
+            
+            numero = Number(numero)
+
+
+            if(numero >= 0 && numero <= 100){
+                if(numero == aleatorio){
+                    frase.innerHTML = ""
+                    mostrar_tentativas.innerHTML = ""
+                    alert(`Parabéns! Você acertou na ${tentativas}º tentativa.`)
+                    limparNumero()
+                    frase.innerHTML = `Clique em Gerar Número Aleatório para jogar novamente.`
+                    
+          
+                }else{
+                    mostrar_tentativas.innerHTML += `Tentativa: ${tentativas} = ${numero}<br>`
+                    
+
+                    if(numero < aleatorio){
+                        incrementar()
+                        frase.innerHTML = `Errou pra menos! O número é maior que ${numero}`
+                        limparNumero()
+    
+                    }else if(numero > aleatorio){
+                        incrementar()
+                        frase.innerHTML = `Errou pra mais! O número é menor que ${numero}`
+                        limparNumero()
+
+                        
+                    }   
+                }
+            }else{
+                alert("Digite somente números entre 0 e 100.")
+            }
+
+
+            
+        }
+
+        function gerar(){
+            limparNumero()
+            frase.innerHTML = "Pode começar a Jogar!!"
+            tentativas = 1
+            aleatorio = Math.floor(Math.random() * 100)
+            return aleatorio
+        }
+
+        function incrementar(){
+            tentativas++
+            return tentativas
+        }
+
+        function limparNumero(){
+            numero.focus()
+            numero.value = ""
+        }
+
+
+    </script>
+    
+</body>
+</html>
